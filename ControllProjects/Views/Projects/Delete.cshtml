@@ -1,0 +1,18 @@
+﻿@model ControllProjects.Models.Project
+
+<h2>Видалити Проект</h2>
+<h3>Ви впевнені що хочете видалити цей проект?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Name</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+    </dl>
+</div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+</form>
