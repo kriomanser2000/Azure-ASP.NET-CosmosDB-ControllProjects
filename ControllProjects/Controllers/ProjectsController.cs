@@ -19,7 +19,7 @@ namespace ControllProjects.Controllers
         {
             var projects = await _cosmosDbService.GetProjectsAsync();
 
-            if (projects == null || !projects.Any())
+            if (projects == null || !projects.Any()) 
             {
                 ViewBag.Message = "Проекти не знайдені.";
                 projects = new List<Project>();
