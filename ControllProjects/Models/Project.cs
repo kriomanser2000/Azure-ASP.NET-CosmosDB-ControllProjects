@@ -7,8 +7,5 @@
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public List<TeamMember> TeamMembers { get; set; }
-        public List<TaskItem> Tasks { get; set; }
-
     }
 }

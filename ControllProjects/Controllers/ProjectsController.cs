@@ -2,17 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using ControllProjects.Interfaces;
 using ControllProjects.Services;
+using Microsoft.Extensions.Logging;
 
 namespace ControllProjects.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly ICosmosDbService _cosmosDbService;
-        public ProjectsController(ICosmosDbService cosmosDbService)
+        private readonly ILogger<ProjectsController> _logger;
+        public ProjectsController(ICosmosDbService cosmosDbService, ILogger<ProjectsController> logger)
         {
             _cosmosDbService = cosmosDbService;
+            _logger = logger;
         }
-        // get: Projects
         public async Task<IActionResult> Index()
         {
             var projects = await _cosmosDbService.GetProjectsAsync();
@@ -24,7 +26,6 @@ namespace ControllProjects.Controllers
             }
             return View(projects);
         }
-        // get: Projects/Details/
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -38,12 +39,10 @@ namespace ControllProjects.Controllers
             }
             return View(project);
         }
-        // get: Projects/Create
         public IActionResult Create()
         {
             return View();
         }
-        // post: Projects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate")] Project project)
@@ -51,12 +50,12 @@ namespace ControllProjects.Controllers
             if (ModelState.IsValid)
             {
                 project.Id = Guid.NewGuid().ToString();
+                _logger.LogInformation("Project Id: {ProjectId}", project.Id);
                 await _cosmosDbService.AddProjectAsync(project);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             return View(project);
         }
-        // get: Projects/Edit/
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -70,7 +69,6 @@ namespace ControllProjects.Controllers
             }
             return View(project);
         }
-        // post: Projects/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Description,StartDate,EndDate")] Project project)
@@ -100,7 +98,6 @@ namespace ControllProjects.Controllers
             }
             return View(project);
         }
-        // get: Projects/Delete/
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -114,7 +111,6 @@ namespace ControllProjects.Controllers
             }
             return View(project);
         }
-        // post: Projects/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

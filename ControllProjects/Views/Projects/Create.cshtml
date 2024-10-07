@@ -1,7 +1,8 @@
 ﻿@model ControllProjects.Models.Project
 
 <h2>Створити новий Проект</h2>
-<form asp-action="Create">
+<form asp-action="Create" method="post">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control" />
@@ -14,15 +15,14 @@
     </div>
     <div class="form-group">
         <label asp-for="StartDate" class="control-label"></label>
-        <input asp-for="StartDate" class="form-control" />
+        <input asp-for="StartDate" class="form-control" type="date" />
         <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="EndDate" class="control-label"></label>
-        <input asp-for="EndDate" class="form-control" />
+        <input asp-for="EndDate" class="form-control" type="date" />
         <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
+    <button type="submit" class="btn btn-primary">Створити</button>
 </form>
+<a asp-action="Index" class="btn btn-secondary">Повернутись до списку проектів</a>
